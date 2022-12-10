@@ -1,6 +1,6 @@
 import express from "express";
-import usersRouter from "./routes/usersRouter.js";
-import accountsRouter from "./routes/accountsRouter.js";
+import usersRouter from "./src/routes/usersRouter.js";
+import accountsRouter from "./src/routes/accountsRouter.js";
 import cors from "cors";
 
 const PORT = process.env.PORT || 5000;
