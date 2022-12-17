@@ -1,14 +1,21 @@
 import { Router } from "express";
 import * as utils from "../utils.js";
 import * as operations from "../operations.js";
+import { Account } from "../../models/account.js";
+import { validateBody } from "../helpers.js";
 const accountsRouter = Router();
-const OPS = {
+export const OPS = {
   DEPOSIT: "deposit",
   WITHDRAW: "withdraw",
   TRANSFER: "transfer",
   FREE_CREDIT: "free credit",
   CHANGE_LIMIT: "change limit",
 };
+/**
+ *
+ * @param {Object} body
+ * @param {Object} model
+ */
 
 accountsRouter.get("/", (req, res) => {
   try {
@@ -17,13 +24,10 @@ accountsRouter.get("/", (req, res) => {
     res.status(404).json(error.message);
   }
 });
-accountsRouter.post("/", (req, res) => {
+accountsRouter.post("/", async (req, res) => {
   try {
-    if (!("ownerPassportID" in req.body)) {
-      throw new Error("Passport ID was not provided!");
-    }
-    const { ownerPassportID, ...accountData } = req.body;
-    const newAccount = utils.createAccount(ownerPassportID, accountData);
+    validateBody(req.body, Account);
+    const newAccount = await Account.create(req.body);
     res.status(201).json(newAccount);
   } catch (error) {
     res.status(409).json(error.message);

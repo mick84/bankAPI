@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { User } from "../../models/user.js";
+import { validateBody } from "../helpers.js";
 import * as utils from "../utils.js";
 
 const usersRouter = Router();
@@ -11,22 +13,22 @@ usersRouter.get("/", (req, res) => {
     res.status(404).json(error);
   }
 });
-usersRouter.post("/", (req, res) => {
+usersRouter.post("/", async (req, res) => {
   try {
-    const { body } = req;
-    const requiredFields = ["name", "balance", "credit", "passportID"];
-    if (!requiredFields.some((f) => f in body)) {
-      throw new Error("Missing data to create user!");
-    }
-    const response = utils.addUser(body);
+    validateBody(req.body, User);
+    const response = await User.create(req.body);
     res.status(201).json(response);
   } catch (error) {
     res.status(409).json(error);
   }
 });
-usersRouter.get("/:id", (req, res) => {
+usersRouter.get("/:id", async (req, res) => {
   try {
-    res.status(200).json(utils.getUser(req.params.id));
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.status(200).json(user);
   } catch (error) {
     res.status(404).json(error);
   }

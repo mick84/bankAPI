@@ -1,0 +1,13 @@
+import express from "express";
+import usersRouter from "./routes/usersRouter.js";
+import accountsRouter from "./routes/accountsRouter.js";
+import cors from "cors";
+import * as dotenv from "dotenv";
+dotenv.config();
+const app = express();
+app.use(express.json());
+app.use(cors());
+app.use("/users", usersRouter);
+app.use("/accounts", accountsRouter);
+app.get("/", (req, res) => res.redirect("/users"));
+export default app;
