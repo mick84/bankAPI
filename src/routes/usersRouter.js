@@ -36,8 +36,12 @@ usersRouter.get("/:id", async (req, res) => {
 
 usersRouter.patch("/:id", (req, res) => {
   try {
-    const { id } = req.params;
-    const response = utils.updateUser(id, req.body);
+    const {
+      params: { id },
+      body,
+    } = req;
+    validateBody(body, User);
+    const response = utils.updateUser(id, body);
     res.status(200).json(response);
   } catch (error) {
     res.status(404).json(error);
