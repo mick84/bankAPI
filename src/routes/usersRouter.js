@@ -47,9 +47,9 @@ usersRouter.patch("/:id", (req, res) => {
     res.status(404).json(error);
   }
 });
-usersRouter.delete("/:id", (req, res) => {
+usersRouter.delete("/:id", async (req, res) => {
   try {
-    const response = utils.deleteUser(req.params.id);
+    const response = await User.findByIdAndDelete(req.params.id);
     res.status(200).json(response);
   } catch (error) {
     res.status(404).json(error);
