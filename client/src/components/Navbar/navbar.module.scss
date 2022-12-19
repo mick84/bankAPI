@@ -1,0 +1,23 @@
+.nav {
+  padding: 1rem 2rem;
+  color: white;
+  border-bottom: 2px solid white;
+  display: flex;
+  justify-content: space-between;
+  background-color: #00000050;
+  .navbar,
+  .user-access {
+    display: flex;
+    gap: 2rem;
+    .navlink {
+      text-decoration: none;
+
+      color: rgb(80, 54, 54);
+      font-style: italic;
+      font-weight: bold;
+    }
+  }
+  .navbar .navlink {
+    font-size: x-large;
+  }
+}
